@@ -1,11 +1,10 @@
 # the cloud-sdk image is a Debian based
 # https://cloud.google.com/sdk/docs/downloads-docker
-FROM gcr.io/google.com/cloudsdktool/cloud-sdk:322.0.0-slim
+FROM gcr.io/google.com/cloudsdktool/cloud-sdk:322.0.0
 
 # Few more components we can use:
 # https://cloud.google.com/sdk/docs/components
 
-ARG INSTALL_COMPONENTS=kubectl
 # RUN gcloud components install kubectl
 
 # helm from here
@@ -24,4 +23,5 @@ RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | g
     && apt install gh
 
 # make it secrets ready
+# TODO install sops
 RUN helm plugin install https://github.com/jkroepke/helm-secrets --version v3.8.2
