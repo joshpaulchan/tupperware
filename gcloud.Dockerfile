@@ -24,8 +24,9 @@ RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | g
 
 # make it secrets ready
 # sops download url retrieved from https://github.com/mozilla/sops/releases
-ENV SOPS_VERSION 3.7.1
-RUN curl https://github.com/mozilla/sops/releases/download/v3.7.1/sops-v$SOPS_VERSION.linux -o /usr/local/bin/sops \
-    && chmod 0755 /usr/local/bin/sops \
-    && sops --version \
-    && helm plugin install https://github.com/jkroepke/helm-secrets --version v3.8.2
+# curl -f (fail early) -s (silent) -S (show errors tho) -L (follow redirects) hugely important here otherwise won't redirect to true asset location
+ARG SOPS_VERSION=3.7.1
+ARG HELM_SECRETS_VERSION=v3.8.2
+RUN curl -fsSL  -o sops.deb https://github.com/mozilla/sops/releases/download/v$SOPS_VERSION/sops_$SOPS_VERSION\_amd64.deb \
+    && apt install ./sops.deb \
+    && helm plugin install https://github.com/jkroepke/helm-secrets --version $HELM_SECRETS_VERSION
