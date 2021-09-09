@@ -23,5 +23,9 @@ RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | g
     && apt install gh
 
 # make it secrets ready
-# TODO install sops
-RUN helm plugin install https://github.com/jkroepke/helm-secrets --version v3.8.2
+# sops download url retrieved from https://github.com/mozilla/sops/releases
+ENV SOPS_VERSION 3.7.1
+RUN curl https://github.com/mozilla/sops/releases/download/v3.7.1/sops-v$SOPS_VERSION.linux -o /usr/local/bin/sops \
+    && chmod 0755 /usr/local/bin/sops \
+    && sops --version \
+    && helm plugin install https://github.com/jkroepke/helm-secrets --version v3.8.2
