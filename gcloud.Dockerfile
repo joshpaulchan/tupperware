@@ -10,7 +10,8 @@ FROM gcr.io/google.com/cloudsdktool/cloud-sdk:322.0.0
 # helm from here
 # https://helm.sh/docs/intro/install/#from-script
 
-RUN curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 \
+# believe this version has to be the git tag?
+RUN DESIRED_VERSION=v3.8.0 curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 \
     && chmod 700 get_helm.sh \
     && ./get_helm.sh \
     && rm ./get_helm.sh
